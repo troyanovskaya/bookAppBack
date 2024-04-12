@@ -42,7 +42,8 @@ var Role;
     Role[Role["administrator"] = 1] = "administrator";
 })(Role || (Role = {}));
 var Genre = /** @class */ (function () {
-    function Genre() {
+    function Genre(name) {
+        this.genre_name = name;
     }
     return Genre;
 }());
@@ -101,4 +102,38 @@ function userSchema() {
         });
     });
 }
-generateSchemas();
+//  generateSchemas();
+function addBooks() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/];
+        });
+    });
+}
+function addGenres() {
+    return __awaiter(this, void 0, void 0, function () {
+        var fiction, historical, novel, classics, gothic, youngAdult, fantasy, scienceFiction, postApocalyptic, action, disutopia, genre;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, mongoose.connect(url)];
+                case 1:
+                    _a.sent();
+                    fiction = new Genre({ genre_name: 'Fiction' });
+                    historical = new Genre({ genre_name: 'Historical' });
+                    novel = new Genre({ genre_name: 'Novel' });
+                    classics = new Genre({ genre_name: 'Classics' });
+                    gothic = new Genre({ genre_name: 'Gothic' });
+                    youngAdult = new Genre({ genre_name: 'Young adult' });
+                    fantasy = new Genre({ genre_name: 'Fantasy' });
+                    scienceFiction = new Genre({ genre_name: 'Science fiction' });
+                    postApocalyptic = new Genre({ genre_name: 'Post Apocalyptic' });
+                    action = new Genre({ genre_name: 'Action' });
+                    disutopia = new Genre({ genre_name: 'Disutopia' });
+                    genre = mongoose.model('Genre');
+                    genre.insertMany([fiction, historical, novel, classics, gothic, youngAdult, fantasy, scienceFiction, postApocalyptic, action, disutopia]);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+addGenres();
