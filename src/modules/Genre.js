@@ -4,7 +4,7 @@ mongoose.connect(url);
 
 const genreSchema=mongoose.Schema({
     _id: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required:true},
     genre_name:{
       type:String,

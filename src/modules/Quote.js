@@ -4,14 +4,14 @@ mongoose.connect(url);
 
 const quoteSchema=mongoose.Schema({
     _id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required:true},
     quote_book: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'books'
     },
     quote_user: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'users'
     },
     quote_text:[{

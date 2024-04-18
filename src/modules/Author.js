@@ -6,7 +6,7 @@ mongoose.connect(url);
 
 const authorSchema=mongoose.Schema({
     _id: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required:true},
     author_name:{
       type:String,
@@ -21,14 +21,14 @@ const authorSchema=mongoose.Schema({
       required:false
     },
     author_books: [{
-      type: Schema.Types.ObjectId, ref: 'books'
+      type: mongoose.Schema.Types.ObjectId, ref: 'books'
     }],
     author_img: {
         type:String,
         required:false
     },
     author_series: [{
-        type: Schema.Types.ObjectId, ref: 'series'
+        type: mongoose.Schema.Types.ObjectId, ref: 'series'
       }],
     
   });

@@ -4,14 +4,14 @@ mongoose.connect(url);
 
 const commentSchema=mongoose.Schema({
     _id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required:true},
     comment_book: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'books'
     },
     comment_user: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'users'
     },
     comment_text:[{

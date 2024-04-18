@@ -35,19 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
 exports.__esModule = true;
 var classes_js_1 = require("./classes.js");
 var mongoose = require('mongoose');
 var mongodb_1 = require("mongodb");
 var client = new mongodb_1.MongoClient(classes_js_1.url);
 var database = client.db('book_app');
+var Book = require('./src/modules/Book.js').Book;
+var Author = require('./src/modules/Author.js').Author;
+var Genre = require('./src/modules/Genre.js').Genre;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var http, server;
@@ -55,67 +51,45 @@ function main() {
         return __generator(this, function (_a) {
             http = require('http');
             server = http.createServer(function (request, response) { return __awaiter(_this, void 0, void 0, function () {
-                var path, books_document, books, res, _a, books_1, books_1_1, doc, e_1_1;
-                var _b, e_1, _c, _d;
-                return __generator(this, function (_e) {
-                    switch (_e.label) {
+                var path, books;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
                         case 0:
                             path = request.url;
                             console.log(path);
-                            if (!(path === '/books')) return [3 /*break*/, 14];
+                            if (!(path === '/books')) return [3 /*break*/, 2];
                             console.log('BOOKS');
-                            books_document = database.collection('books');
-                            return [4 /*yield*/, books_document.find()];
+                            return [4 /*yield*/, Book.find()];
                         case 1:
-                            books = _e.sent();
-                            res = [];
-                            _e.label = 2;
-                        case 2:
-                            _e.trys.push([2, 7, 8, 13]);
-                            _a = true, books_1 = __asyncValues(books);
-                            _e.label = 3;
-                        case 3: return [4 /*yield*/, books_1.next()];
-                        case 4:
-                            if (!(books_1_1 = _e.sent(), _b = books_1_1.done, !_b)) return [3 /*break*/, 6];
-                            _d = books_1_1.value;
-                            _a = false;
-                            try {
-                                doc = _d;
-                                res.push(doc);
-                            }
-                            finally {
-                                _a = true;
-                            }
-                            _e.label = 5;
-                        case 5: return [3 /*break*/, 3];
-                        case 6: return [3 /*break*/, 13];
-                        case 7:
-                            e_1_1 = _e.sent();
-                            e_1 = { error: e_1_1 };
-                            return [3 /*break*/, 13];
-                        case 8:
-                            _e.trys.push([8, , 11, 12]);
-                            if (!(!_a && !_b && (_c = books_1["return"]))) return [3 /*break*/, 10];
-                            return [4 /*yield*/, _c.call(books_1)];
-                        case 9:
-                            _e.sent();
-                            _e.label = 10;
-                        case 10: return [3 /*break*/, 12];
-                        case 11:
-                            if (e_1) throw e_1.error;
-                            return [7 /*endfinally*/];
-                        case 12: return [7 /*endfinally*/];
-                        case 13:
-                            console.log(res);
-                            response.writeHead(200, { 'Content-Type': 'application/json',
+                            books = _a.sent();
+                            // const books = await Book.find().then( (bs) =>{
+                            //   for (let b of bs){
+                            //     b.book_authors = b.book_authors.map(async(author) => {
+                            //       let a  = await Author.findById(author);
+                            //       console.log(a)
+                            //       return a;
+                            //     })
+                            //   }
+                            //   return bs;
+                            // });
+                            //  books.map( (book) => {
+                            //     book.book_authors.map(async(author) => {
+                            //       author = await Author.find({_id: author});
+                            //       console.log('!!!!!!!!!!!!!!!!!')
+                            //       console.log(author)
+                            //       book.save();
+                            //     })
+                            //   })
+                            response.writeHead(200, { 'Content-Type': 'text/javascript',
                                 'Access-Control-Allow-Origin': 'http://localhost:4200',
                                 'Access-Control-Allow-Credentials': true,
                                 'Access-Control-Allow-Methods': ['GET', 'POST', 'OPTIONS'],
-                                'Access-Control-Allow-Headers': ['Origin', 'Content-Type', 'Accept'] });
-                            response.write(JSON.stringify(res));
+                                'Access-Control-Allow-Headers': ['Origin', 'Content-Type', 'Accept']
+                            });
+                            response.write(JSON.stringify(books));
                             response.end();
-                            _e.label = 14;
-                        case 14:
+                            _a.label = 2;
+                        case 2:
                             console.log('Request received!');
                             return [2 /*return*/];
                     }

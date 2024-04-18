@@ -4,14 +4,15 @@ mongoose.connect(url);
 
 const bookSchema=mongoose.Schema({
     _id: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required:true},
     book_name:{
         type:String,
         required:true
     },
     book_authors: [{
-        type: Schema.Types.ObjectId, ref: 'authors'
+        type:String,
+        required:true
       }],
     book_edition_year:{
         type: Number,
@@ -26,31 +27,32 @@ const bookSchema=mongoose.Schema({
         required:true
     }],
     book_genres: [{
-        type: Schema.Types.ObjectId, ref: 'genres'
+        type:String,
+        required:true
     }],
     book_rates: [{
-        type: Schema.Types.ObjectId, ref: 'rates'
+        type: mongoose.Schema.Types.ObjectId, ref: 'rates'
     }],
-    book_average_rate:[{
+    book_average_rate:{
         type: Number,
         required:true,
         default: 5
-    }],
+    },
     book_quotes: [{
-        type: Schema.Types.ObjectId, ref: 'quotes'
+        type: mongoose.Schema.Types.ObjectId, ref: 'quotes'
     }],
     book_comments: [{
-        type: Schema.Types.ObjectId, ref: 'comments'
+        type: mongoose.Schema.Types.ObjectId, ref: 'comments'
     }],
     book_reviews: [{
-        type: Schema.Types.ObjectId, ref: 'reviews'
+        type: mongoose.Schema.Types.ObjectId, ref: 'reviews'
     }],
-    book_img:{
+    book_img:[{
         type: String,
         required:true
-    },
+    }],
     book_reviews: [{
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'series'
     }],
 

@@ -4,7 +4,7 @@ mongoose.connect(url);
 
 const userSchema=mongoose.Schema({
     _id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required:true
     },
     user_role:{
@@ -30,19 +30,19 @@ const userSchema=mongoose.Schema({
         default: 'assets/avatars/default.jpg'
     },
     user_books_saved: [{
-        type: Schema.Types.ObjectId, ref: 'books'
+        type: mongoose.Schema.Types.ObjectId, ref: 'books'
     }],
     user_books_read: [{
-        type: Schema.Types.ObjectId, ref: 'books'
+        type: mongoose.Schema.Types.ObjectId, ref: 'books'
     }],
     user_books_dropped: [{
-        type: Schema.Types.ObjectId, ref: 'books'
+        type: mongoose.Schema.Types.ObjectId, ref: 'books'
     }],
     user_saved_quotes: [{
-        type: Schema.Types.ObjectId, ref: 'quotes'
+        type: mongoose.Schema.Types.ObjectId, ref: 'quotes'
     }],  
     user_books_recommendations: [{
-        type: Schema.Types.ObjectId, ref: 'books'
+        type: mongoose.Schema.Types.ObjectId, ref: 'books'
     }], 
   });
   

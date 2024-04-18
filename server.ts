@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 import { MongoClient } from "mongodb";
 const client = new MongoClient(url);
 const database = client.db('book_app');
-import {getAllBooks} from './bookReq.js';
+const { Book } = require('./src/modules/Book.js');
+const { Author } = require('./src/modules/Author.js');
+const { Genre } = require('./src/modules/Genre.js');
 
 
 
@@ -14,19 +16,33 @@ async function main(){
     console.log(path);
     if (path === '/books'){
       console.log('BOOKS');
-      const books_document = database.collection('books');
-      var books = await books_document.find();
-      let res = [];
-      for await (let doc of books){
-        res.push(doc);
-      }
-      console.log(res)
-      response.writeHead(200, { 'Content-Type': 'application/json',
+      const books = await Book.find();
+      // const books = await Book.find().then( (bs) =>{
+      //   for (let b of bs){
+      //     b.book_authors = b.book_authors.map(async(author) => {
+      //       let a  = await Author.findById(author);
+      //       console.log(a)
+      //       return a;
+      //     })
+          
+      //   }
+      //   return bs;
+      // });
+    //  books.map( (book) => {
+    //     book.book_authors.map(async(author) => {
+    //       author = await Author.find({_id: author});
+    //       console.log('!!!!!!!!!!!!!!!!!')
+    //       console.log(author)
+    //       book.save();
+    //     })
+    //   })
+      response.writeHead(200, { 'Content-Type': 'text/javascript',
       'Access-Control-Allow-Origin': 'http://localhost:4200',
       'Access-Control-Allow-Credentials': true,
       'Access-Control-Allow-Methods': ['GET', 'POST', 'OPTIONS'],
-      'Access-Control-Allow-Headers': ['Origin', 'Content-Type', 'Accept']});
-      response.write(JSON.stringify(res));
+      'Access-Control-Allow-Headers': ['Origin', 'Content-Type', 'Accept']
+    }      );
+      response.write(JSON.stringify(books));
       response.end();
       
     }

@@ -1,9 +1,28 @@
 {
   "dependencies": {
+    "express": "^4.19.2",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7"
-  }
+    "@types/node": "^20.12.7",
+    "nodemon": "^3.1.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "bookappback",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/troyanovskaya/bookAppBack.git"
+  },
+  "author": "Anastasiia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/troyanovskaya/bookAppBack/issues"
+  },
+  "homepage": "https://github.com/troyanovskaya/bookAppBack#readme",
+  "description": ""
 }

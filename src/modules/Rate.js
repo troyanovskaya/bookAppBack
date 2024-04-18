@@ -4,14 +4,14 @@ mongoose.connect(url);
 
 const rateSchema=mongoose.Schema({
     _id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required:true},
     rate_book: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'books'
     },
     rate_user: {
-      type: Schema.Types.ObjectId, 
+      type: mongoose.Schema.Types.ObjectId, 
       ref: 'users'
     },
     rate_score:[{

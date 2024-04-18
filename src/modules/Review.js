@@ -4,14 +4,14 @@ mongoose.connect(url);
 
 const reviewSchema=mongoose.Schema({
     _id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required:true},
     review_book: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'books'
     },
     review_user: {
-        type: Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId, 
         ref: 'users'
     },
     review_text:[{

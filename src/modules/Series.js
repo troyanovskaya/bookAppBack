@@ -4,12 +4,15 @@ mongoose.connect(url);
 
 const seriesSchema=mongoose.Schema({
     _id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required:true},
     series_name:{
       type:String,
       required:true
-    }
+    },
+    series_books: [{
+      type: mongoose.Schema.Types.ObjectId, ref: 'books'
+    }],
   });
   
   const Series = mongoose.model('series', seriesSchema);
