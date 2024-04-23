@@ -55,6 +55,14 @@ const bookSchema=mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'series'
     }],
+    book_series: [{
+        type:String,
+        required: true
+    }],
+    book_series_numbers: [{
+        type: Number,
+        required: true
+    }]
 
   });
   
