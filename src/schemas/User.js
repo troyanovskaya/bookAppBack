@@ -38,6 +38,9 @@ const userSchema=mongoose.Schema({
     user_books_dropped: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'books'
     }],
+    user_books_favourite: [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'books'
+    }],
     user_saved_quotes: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'quotes'
     }],  
