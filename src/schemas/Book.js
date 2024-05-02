@@ -51,10 +51,6 @@ const bookSchema=mongoose.Schema({
         type: String,
         required:true
     }],
-    book_reviews: [{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'series'
-    }],
     book_series: [{
         type:String,
         required: true

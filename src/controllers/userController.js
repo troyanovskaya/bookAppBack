@@ -2,14 +2,16 @@ const {User} = require('../schemas/User');
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 const mongoose=require('mongoose');
 mongoose.connect(url);
+const checkBodyPostUser = async (req, res, next) => {
+    let {user_login, user_password, user_email} = req.body;
+    if(user_login && user_password && user_email){
+        return next();
+    }
+    return res.status(404).send({ "message": "proper post body missing"});
+}
 const postUser = async (req, res) => {
     try{
-        //console.log(new mongoose.Types.ObjectId())
         let _id = new mongoose.Types.ObjectId();
-        // console.log('123')
-        // console.log(_id);
-        // let {user_role} = req.body;
-        // console.log(user_role);
         let {user_role, user_login, user_password,
             user_email, user_img, user_books_saved, user_books_read,
             user_books_dropped, user_books_favourite, user_saved_quotes, user_books_recommendations} = req.body;
@@ -23,14 +25,17 @@ const postUser = async (req, res) => {
        res.status(500).send({ "message": "internal server error", "e": e });
     }
 }
-const getUserByLoginEmail = async (req, res) => {
+const getUserByEmailPassword = async (req, res) => {
     try{
-        let {login, email} = req.query;
-        const user = await User.findOne({"user_email": email, "user_login": login})
+        let {password, email} = req.query;
+        const user = await User.findOne({"user_email": email});
+        console.log(user);
         if(!user){
-            res.status(200).send("No user found"); 
+            res.status(404).send("No user found"); 
+        } else if (user.user_password!=password){
+            res.status(404).send('Wrong password'); 
         } else{
-            res.status(200).send(user);  
+            res.status(200).send(user); 
         }
         
     } catch (e) {
@@ -40,5 +45,6 @@ const getUserByLoginEmail = async (req, res) => {
 
 module.exports = { 
     postUser,
-    getUserByLoginEmail
+    getUserByEmailPassword,
+    checkBodyPostUser
 }
