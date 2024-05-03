@@ -40,6 +40,7 @@ const patchBook = async (req, res) =>{
         let book = await Book.findById(req.params.id);
         let update = req.body;
         book = await Book.findOneAndUpdate({_id: book._id}, update, {new: true});
+        console.log(4);
         res.status(200).send(book);
     } catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });

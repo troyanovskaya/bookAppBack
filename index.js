@@ -4,6 +4,8 @@ mongoose.connect(url);
  
 const cors = require('cors');
 const express = require('express')
+let morgan = require('morgan');
+
 const app = express();
 const bookRouter = require('./src/routes/bookRoutes.js')
 const userRouter = require('./src/routes/userRoutes.js')
@@ -25,7 +27,7 @@ const port = 3000;
 app.use(cors());
 //middleware to add body to the request
 app.use(express.json())
-
+app.use(morgan('tiny'))
 
 
 app.use('/books', bookRouter);

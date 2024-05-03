@@ -27,7 +27,7 @@ const userSchema=mongoose.Schema({
     user_img:{
         type:String,
         required:false,
-        default: 'assets/avatars/default.jpg'
+        default: 'assets/avatars/lotus.png'
     },
     user_books_saved: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'books'
