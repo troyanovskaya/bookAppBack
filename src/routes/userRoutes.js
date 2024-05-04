@@ -8,4 +8,5 @@ const { postUser, getUserByEmailPassword, checkBodyPostUser,
 //bookRouter.route('/:id').get(getBook).patch(patchBook).delete(deleteBook);
 userRouter.route('/').post(checkBodyPostUser, postUser).get(getUserByEmailPassword);
 userRouter.route('/:id').patch(patchUser);
+
 module.exports = userRouter;

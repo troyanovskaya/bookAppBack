@@ -42,7 +42,7 @@ const bookSchema=mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: 'quotes'
     }],
     book_comments: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'comments'
+        type: {user_id: String, user_img: String, user_login: String, comment: [String], date: String}
     }],
     book_reviews: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'reviews'

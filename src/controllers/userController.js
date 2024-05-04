@@ -44,14 +44,14 @@ const getUserByEmailPassword = async (req, res) => {
 }
 const patchUser = async (req, res) =>{
     try{
-        let user = await User.findById(req.params.id);
         let update = req.body;
-        user = await User.findOneAndUpdate({_id: user._id}, update, {new: true});
+        user = await User.findOneAndUpdate({_id: req.params.id}, update, {new: true});
         res.status(200).send(user);
     } catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }    
 }
+
 
 module.exports = { 
     postUser,

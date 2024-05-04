@@ -47,6 +47,9 @@ const userSchema=mongoose.Schema({
     user_books_recommendations: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'books'
     }], 
+    user_comments: [{
+        type: {book_id: String, book_name: String, book_authors: [String], book_img: [String], comment: [String], date: String}
+    }]
   });
   
   const User = mongoose.model('users', userSchema);
