@@ -11,6 +11,8 @@ const bookRouter = require('./src/routes/bookRoutes.js');
 const userRouter = require('./src/routes/userRoutes.js');
 const commentRouter = require('./src/routes/commentRoutes.js');
 const reviewRouter = require('./src/routes/reviewRoutes.js');
+const quoteRouter = require('./src/routes/quoteRoutes.js');
+
 
 const port = 3000;
 
@@ -36,6 +38,7 @@ app.use('/books', bookRouter);
 app.use('/users', userRouter);
 app.use('/comments', commentRouter);
 app.use('/reviews', reviewRouter);
+app.use('/quotes', quoteRouter);
 
 //console.log(app.get('env'))
 app.listen(port, () =>{
