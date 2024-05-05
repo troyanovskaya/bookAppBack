@@ -10,9 +10,24 @@ const commentSchema=mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'books'
     },
+    comment_book_img:[{
+        type: String
+    }],
+    comment_book_name:{
+        type: String
+    },
+    comment_book_authors:[{
+        type: String
+    }],
     comment_user: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'users'
+    },
+    comment_user_img: {
+        type: String
+    },
+    comment_user_login: {
+        type: String
     },
     comment_text:[{
         type:String,
