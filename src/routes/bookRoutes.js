@@ -3,7 +3,7 @@ const express = require('express')
 const bookRouter = express.Router();
 
 const { getBooks, postBook,getBook, patchBook, deleteBook, checkBookPostBody, 
-    patchBookArray} = require('../controllers/bookController')
+    patchBookArray, deleteField} = require('../controllers/bookController')
 
 bookRouter.route('/').get(getBooks).post(checkBookPostBody, postBook);
 bookRouter.route('/:id').get(getBook).patch(patchBook).delete(deleteBook);

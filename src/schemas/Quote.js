@@ -3,26 +3,45 @@ const mongoose=require('mongoose');
 mongoose.connect(url);
 
 const quoteSchema=mongoose.Schema({
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required:true},
-    quote_book: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'books'
-    },
-    quote_user: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'users'
-    },
-    quote_text:[{
-        type:String,
-        required:true
-    }],
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required:true},
+  quote_book: {
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'books'
+  },
+  quote_book_img:[{
+      type: String
+  }],
+  quote_book_name:{
+      type: String
+  },
+  quote_book_authors:[{
+      type: String
+  }],
+  quote_user: {
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'users'
+  },
+  quote_user_img: {
+      type: String
+  },
+  quote_user_login: {
+      type: String
+  },
+  quote_text:[{
+      type:String,
+      required:true
+  }],
+  quote_date: {
+      type:String,
+      required:true
+  },
+  quote_character: {
+    type:String,
+    default: 'Author'
+  }
 
-    quote_label: {
-        type:String,
-        required:true
-    }
   });
   
   const Quote = mongoose.model('quotes', quoteSchema);

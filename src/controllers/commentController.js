@@ -23,11 +23,7 @@ const getCommentByBookId = async (req, res) =>{
     try{
         let bookId = req.params.bookId;
         const comments = await Comment.find({comment_book: bookId});
-        console.log(comments);
         res.status(200).send(comments);
-
-
-
     } catch (e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }

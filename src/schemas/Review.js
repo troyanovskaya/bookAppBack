@@ -5,18 +5,33 @@ mongoose.connect(url);
 const reviewSchema=mongoose.Schema({
     _id: {
       type: mongoose.Schema.Types.ObjectId,
-      required:true},
+      required:true
+    },
     review_book: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'books'
     },
+    review_book_img:[{
+        type: String
+    }],
+    review_book_name:{
+        type: String
+    },
+    review_book_authors:[{
+        type: String
+    }],
     review_user: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'users'
     },
+    review_user_img: {
+        type: String
+    },
+    review_user_login: {
+        type: String
+    },
     review_text:[{
-        type:String,
-        required:true
+        type:String
     }],
     review_date: {
         type:String,

@@ -89,6 +89,7 @@ const patchBookArray = async (req, res) =>{
     }    
 }
 
+
 module.exports = {
     getBooks,
     postBook,
@@ -96,5 +97,5 @@ module.exports = {
     patchBook,
     deleteBook,
     checkBookPostBody,
-    patchBookArray
+    patchBookArray,
 }

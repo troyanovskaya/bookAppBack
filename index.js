@@ -10,6 +10,7 @@ const app = express();
 const bookRouter = require('./src/routes/bookRoutes.js');
 const userRouter = require('./src/routes/userRoutes.js');
 const commentRouter = require('./src/routes/commentRoutes.js');
+const reviewRouter = require('./src/routes/reviewRoutes.js');
 
 const port = 3000;
 
@@ -34,6 +35,8 @@ app.use(morgan('tiny'))
 app.use('/books', bookRouter);
 app.use('/users', userRouter);
 app.use('/comments', commentRouter);
+app.use('/reviews', reviewRouter);
+
 //console.log(app.get('env'))
 app.listen(port, () =>{
     console.log('server has started');
