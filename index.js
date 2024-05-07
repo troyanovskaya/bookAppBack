@@ -12,6 +12,7 @@ const userRouter = require('./src/routes/userRoutes.js');
 const commentRouter = require('./src/routes/commentRoutes.js');
 const reviewRouter = require('./src/routes/reviewRoutes.js');
 const quoteRouter = require('./src/routes/quoteRoutes.js');
+const rateRouter = require('./src/routes/rateRoutes.js');
 
 
 const port = 3000;
@@ -39,6 +40,7 @@ app.use('/users', userRouter);
 app.use('/comments', commentRouter);
 app.use('/reviews', reviewRouter);
 app.use('/quotes', quoteRouter);
+app.use('/rates', rateRouter);
 
 //console.log(app.get('env'))
 app.listen(port, () =>{

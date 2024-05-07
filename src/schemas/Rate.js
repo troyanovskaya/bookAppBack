@@ -14,12 +14,8 @@ const rateSchema=mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'users'
     },
-    rate_score:[{
+    rate_score:{
         type:Number,
-        required:true
-    }],
-    rate_user: {
-        type:String,
         required:true
     }
   });

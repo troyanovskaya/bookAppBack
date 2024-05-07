@@ -36,7 +36,7 @@ const bookSchema=mongoose.Schema({
     book_average_rate:{
         type: Number,
         required:true,
-        default: 5
+        default: 0
     },
     book_quotes: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'quotes'

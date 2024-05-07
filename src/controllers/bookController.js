@@ -2,6 +2,10 @@ const {Book} = require('../schemas/Book');
 const getBooks = async (req, res) => {
     try{
         const books = await Book.find();
+        // for (let book of books){
+        //     book.book_average_rate = 0;
+        //     book.save()
+        // }
         res.status(200).send(books);
     }catch(e){
         res.status(500).send({ "message": "internal server error" });
