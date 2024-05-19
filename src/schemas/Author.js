@@ -28,7 +28,7 @@ const authorSchema=mongoose.Schema({
         required:false
     },
     author_series: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'series'
+        type:String
       }],
     
   });

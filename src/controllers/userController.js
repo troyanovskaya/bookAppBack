@@ -52,11 +52,66 @@ const patchUser = async (req, res) =>{
         res.status(500).send({ "message": "internal server error", "e": e });
     }    
 }
+const getFavDrop = async (req, res) => {
+    // let id = await req.params.userId;
+    // console.log(id)
+    let u = await User.findById(req.params.userId);
+    let dropped = u.user_books_dropped;
+    let favourite = u.user_books_favourite;
+    let dropA;
+    let favA;
+    let dropS = new Set();
+    let favS = new Set();
+    const users = await User.find();
+    const chosenUsers = [];
+    for (let user of users){
+        let s = 0;
+        for(let d of user.user_books_dropped){
+            if(dropped.includes(d)){
+                s++;
+            }
+        }
+        for(let f of user.user_books_favourite){
+            if(favourite.includes(f)){
+                s++;
+            }
+        } 
+        if(s > req.params.score ||  s == req.params.score){
+            chosenUsers.push(user)
+        }
+    }
+    for (let user of chosenUsers){
+        for (let d of user.user_books_dropped){
+            if(!dropped.includes(d)){
+                dropS.add(d);
+            }
+            if(favourite.includes(d)){
+                dropS.delete(d);
+                favS.delete(d);
+            }
+        }
+        for (let f of user.user_books_favourite){
+            if(!favourite.includes(f)){
+                favS.add(f);
+            }
+            if(dropped.includes(f)){
+                dropS.delete(f);
+                favS.delete(f);
+            }
+        }
+    }
+    favA = [...favS];
+    dropA = [...dropS];
+    let obj = {'dropped': dropA, 'favourite': favA}
+    res.status(200).send(obj);
+
+}
 
 
 module.exports = { 
     postUser,
     getUserByEmailPassword,
     checkBodyPostUser,
-    patchUser
+    patchUser,
+    getFavDrop
 }

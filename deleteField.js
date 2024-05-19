@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {User} = require('./src/schemas/User'); // Assuming you have defined the Book schema/model
+const {Book} = require('./src/schemas/Book'); // Assuming you have defined the Book schema/model
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 mongoose.connect(url);
 // Define the function to delete the 'book_comments' field
@@ -8,7 +8,7 @@ async function deleteBookComments() {
         // Connect to the MongoDB database
 
         // Update documents to remove 'book_comments' field, excluding '_id' field
-        const result = await User.updateMany({}, { $unset: { 'user_comments': '' } }, { multi: true });
+        const result = await Book.updateMany({}, { $unset: { 'book_rates': '' } }, { multi: true });
         
         //let result = await Book.find(); 
         console.log(`${result.nModified} documents updated`);

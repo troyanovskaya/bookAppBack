@@ -45,7 +45,7 @@ const userSchema=mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: 'quotes'
     }],  
     user_books_recommendations: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'books'
+        type: mongoose.Schema.Types.ObjectId, ref: 'books',
     }]
   });
   

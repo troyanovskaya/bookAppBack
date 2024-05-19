@@ -30,17 +30,11 @@ const bookSchema=mongoose.Schema({
         type:String,
         required:true
     }],
-    book_rates: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'rates'
-    }],
     book_average_rate:{
         type: Number,
         required:true,
         default: 0
     },
-    book_quotes: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'quotes'
-    }],
     book_img:[{
         type: String,
         required:true

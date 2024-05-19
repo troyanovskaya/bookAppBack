@@ -49,8 +49,19 @@ const getRateByBookId = async (req, res) =>{
         res.status(500).send({ "message": "internal server error", "e": e });
     }
 }
+const getRateByUserId = async (req, res) =>{
+    try{
+        let userId = req.params.userId;
+        let rates = await Rate.find({'rate_user': userId});
+        res.status(200).send(rates);
+    } catch (e){
+        res.status(500).send({ "message": "internal server error", "e": e });
+    }
+}
+
 
 module.exports = { 
     postRate,
-    getRateByBookId
+    getRateByBookId,
+    getRateByUserId
 }

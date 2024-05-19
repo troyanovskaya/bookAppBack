@@ -1,4 +1,5 @@
 const {Book} = require('../schemas/Book');
+const mongoose=require('mongoose');
 const getBooks = async (req, res) => {
     try{
         const books = await Book.find();
@@ -12,14 +13,12 @@ const getBooks = async (req, res) => {
     }    
 }
 const postBook = async (req, res) => {
-    try{
+   try{
         let _id = new mongoose.Types.ObjectId();
         let {book_name, book_authors, book_edition_year, book_description,
-        book_keywords, book_genres, book_rates, book_average_rate, book_quotes,
-        book_comments, book_reviews, book_img, book_series, book_series_numbers} = req.body;
+        book_keywords, book_genres, book_rates, book_average_rate, book_img, book_series, book_series_numbers} = req.body;
         const newBook = await new Book({_id, book_name, book_authors, book_edition_year, book_description,
-            book_keywords, book_genres, book_rates, book_average_rate, book_quotes,
-            book_comments, book_reviews, book_img, book_series, book_series_numbers});
+            book_keywords, book_genres, book_rates, book_average_rate, book_img, book_series, book_series_numbers});
         newBook.save();
         res.status(200).send(newBook);
     }catch(e){
@@ -60,13 +59,11 @@ const deleteBook = async(req, res) =>{
 }
 const checkBookPostBody = async(req, res, next) =>{
     let {book_name, book_authors, book_edition_year, book_description,
-        book_keywords, book_genres, book_rates, book_average_rate, book_quotes,
-        book_comments, book_reviews, book_img, book_series, book_series_numbers} = req.body
+        book_keywords, book_genres, book_rates, book_average_rate, book_img, book_series, book_series_numbers} = req.body
 
     if (!book_name || !book_authors || !book_edition_year || !book_description ||
         !book_keywords || !book_genres || !book_rates || !book_average_rate || 
-        !book_quotes || !book_comments || !book_reviews || !book_img || 
-        !book_series || !book_series_numbers){
+         !book_img || !book_series || !book_series_numbers){
         
         return res.status(404).send({ "message": "proper post body missing"});
     }
