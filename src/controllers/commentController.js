@@ -28,8 +28,27 @@ const getCommentByBookId = async (req, res) =>{
         res.status(500).send({ "message": "internal server error", "e": e });
     }
 }
+const deleteComment = async(req, res) =>{
+    try{
+        let comm = await Comment.findByIdAndDelete(req.params.id);
+        res.status(200).send(comm);
+    } catch (e){
+        res.status(500).send({ "message": "internal server error", "e": e });
+    }    
+}
+const patchComment = async (req, res) =>{
+    try{
+        let update = req.body;
+        let comm = await Comment.findOneAndUpdate({_id: req.params.id}, update, {new: true});
+        res.status(200).send(comm);
+    } catch(e){
+        res.status(500).send({ "message": "internal server error", "e": e });
+    }    
+}
 
 module.exports = { 
     postComment,
-    getCommentByBookId
+    getCommentByBookId,
+    deleteComment,
+    patchComment
 }

@@ -14,7 +14,8 @@ const userSchema=mongoose.Schema({
     },
     user_login:{
         type:String,
-        required:true
+        required:true,
+        unique: true
     },
     user_password:{
         type:String,
@@ -22,7 +23,8 @@ const userSchema=mongoose.Schema({
     },
     user_email:{
         type:String,
-        required:true
+        required:true,
+        unique: true
     },
     user_img:{
         type:String,

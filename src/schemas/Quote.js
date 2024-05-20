@@ -31,7 +31,8 @@ const quoteSchema=mongoose.Schema({
   },
   quote_text:[{
       type:String,
-      required:true
+      required:true,
+      unique:true
   }],
   quote_date: {
       type:String,
