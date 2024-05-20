@@ -26,8 +26,16 @@ const getQuoteByBookId = async (req, res) =>{
         res.status(500).send({ "message": "internal server error", "e": e });
     }
 }
-
+const deleteQuote = async(req, res) =>{
+    try{
+        let quote = await Quote.findByIdAndDelete(req.params.id);
+        res.status(200).send(quote);
+    } catch (e){
+        res.status(500).send({ "message": "internal server error", "e": e });
+    }    
+}
 module.exports = { 
     postQuote,
-    getQuoteByBookId
+    getQuoteByBookId,
+    deleteQuote
 }

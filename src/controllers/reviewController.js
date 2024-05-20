@@ -26,6 +26,14 @@ const getReviewByBookId = async (req, res) =>{
         res.status(500).send({ "message": "internal server error", "e": e });
     }
 }
+const deleteReview = async(req, res) =>{
+    try{
+        let review = await Review.findByIdAndDelete(req.params.id);
+        res.status(200).send(review);
+    } catch (e){
+        res.status(500).send({ "message": "internal server error", "e": e });
+    }    
+}
 
 module.exports = { 
     postReview,
