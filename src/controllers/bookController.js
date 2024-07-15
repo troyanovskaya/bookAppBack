@@ -1,5 +1,6 @@
 const {Book} = require('../schemas/Book');
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
+const {BookFeatures} = require('../utils/bookUtils');
 const getBooks = async (req, res) => {
     try{
         const books = await Book.find();
@@ -20,7 +21,7 @@ const postBook = async (req, res) => {
         const newBook = await new Book({_id, book_name, book_authors, book_edition_year, book_description,
             book_keywords, book_genres, book_rates, book_average_rate, book_img, book_series, book_series_numbers});
         newBook.save();
-        res.status(200).send(newBook);
+        res.status(201).send(newBook);
     }catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }
@@ -40,9 +41,8 @@ const getBook = async (req, res) =>{
 }
 const patchBook = async (req, res) =>{
     try{
-        let book = await Book.findById(req.params.id);
         let update = req.body;
-        book = await Book.findOneAndUpdate({_id: book._id}, update, {new: true});
+        let book = await Book.findOneAndUpdate({_id: req.params.id}, update, {new: true, runValidators: true});
         console.log(4);
         res.status(200).send(book);
     } catch(e){
@@ -52,7 +52,7 @@ const patchBook = async (req, res) =>{
 const deleteBook = async(req, res) =>{
     try{
         let book = await Book.findByIdAndDelete(req.params.id);
-        res.status(200).send(book);
+        res.status(204).send(book);
     } catch (e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }    
@@ -90,6 +90,13 @@ const patchBookArray = async (req, res) =>{
     }    
 }
 
+const findBooks = async(req, res) =>{
+    console.log('!!!')
+    let searchResult = await new BookFeatures(Book.find(), req.query).filter();
+    res.status(200).send(await searchResult.query); 
+}
+
+
 
 module.exports = {
     getBooks,
@@ -99,4 +106,5 @@ module.exports = {
     deleteBook,
     checkBookPostBody,
     patchBookArray,
+    findBooks
 }

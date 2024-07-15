@@ -8,7 +8,7 @@ const postAuthor = async (req, res) => {
         let newAuthor = await new Author({_id, author_name, author_biography, author_date_of_birth, author_books,
             author_img, author_series});
         newAuthor.save();
-        res.status(200).send(newAuthor);
+        res.status(201).send(newAuthor);
      }catch(e){
          res.status(500).send({ "message": "internal server error", "e": e });
      }

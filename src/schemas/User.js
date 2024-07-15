@@ -20,6 +20,7 @@ const userSchema=mongoose.Schema({
     user_password:{
         type:String,
         required:true
+        // select: false to exclude from query result
     },
     user_email:{
         type:String,

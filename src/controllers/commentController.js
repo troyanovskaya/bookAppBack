@@ -14,7 +14,7 @@ const postComment = async (req, res) => {
             comment_book_name, comment_book_authors, comment_user, comment_user_img,
             comment_user_login, comment_text, comment_date});
         newComment.save();
-        res.status(200).send(newComment);
+        res.status(201).send(newComment);
     }catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }
@@ -31,7 +31,7 @@ const getCommentByBookId = async (req, res) =>{
 const deleteComment = async(req, res) =>{
     try{
         let comm = await Comment.findByIdAndDelete(req.params.id);
-        res.status(200).send(comm);
+        res.status(204).send(comm);
     } catch (e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }    
@@ -39,7 +39,7 @@ const deleteComment = async(req, res) =>{
 const patchComment = async (req, res) =>{
     try{
         let update = req.body;
-        let comm = await Comment.findOneAndUpdate({_id: req.params.id}, update, {new: true});
+        let comm = await Comment.findOneAndUpdate({_id: req.params.id}, update, {new: true, runValidators: true});
         res.status(200).send(comm);
     } catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });

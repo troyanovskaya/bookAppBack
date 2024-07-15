@@ -12,7 +12,7 @@ const postReview = async (req, res) => {
             review_book_name, review_book_authors, review_user, review_user_img, 
             review_user_login, review_text, review_date});
         newReview.save();
-        res.status(200).send(newReview);
+        res.status(201).send(newReview);
     }catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }
@@ -29,7 +29,7 @@ const getReviewByBookId = async (req, res) =>{
 const deleteReview = async(req, res) =>{
     try{
         let review = await Review.findByIdAndDelete(req.params.id);
-        res.status(200).send(review);
+        res.status(204).send(review);
     } catch (e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }    

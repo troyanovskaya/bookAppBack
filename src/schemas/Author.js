@@ -10,7 +10,7 @@ const authorSchema=mongoose.Schema({
         required:true},
     author_name:{
       type:String,
-      required:true,
+      required:[true, "author_name is required field"],
       unique: true
     },
     author_biography:[{

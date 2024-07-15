@@ -21,7 +21,7 @@ const postUser = async (req, res) => {
             user_email, user_img, user_books_saved, user_books_read,
             user_books_dropped, user_books_favourite, user_saved_quotes, user_books_recommendations});
         newUser.save();
-        res.status(200).send(newUser);
+        res.status(201).send(newUser);
     }catch(e){
        res.status(500).send({ "message": "internal server error", "e": e });
     }
@@ -46,7 +46,7 @@ const getUserByEmailPassword = async (req, res) => {
 const patchUser = async (req, res) =>{
     try{
         let update = req.body;
-        user = await User.findOneAndUpdate({_id: req.params.id}, update, {new: true});
+        let user = await User.findOneAndUpdate({_id: req.params.id}, update, {new: true, runValidators: true});
         res.status(200).send(user);
     } catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });

@@ -23,7 +23,7 @@ const postRate = async (req, res) => {
                 let book = await Book.findOne({_id: rate_book._id});
                 book.book_average_rate = result;
                 book.save()
-                res.status(200).send(result)
+                res.status(201).send(result)
             }  );
         } else{
             const newRate = await new Rate({_id, rate_book, rate_user, rate_score});

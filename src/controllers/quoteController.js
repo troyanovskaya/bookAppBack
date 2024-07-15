@@ -12,7 +12,7 @@ const postQuote = async (req, res) => {
             quote_book_name, quote_book_authors, quote_user, quote_user_img, 
             quote_user_login, quote_text, quote_date, quote_character});
         newQuote.save();
-        res.status(200).send(newQuote);
+        res.status(201).send(newQuote);
     }catch(e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }
@@ -29,7 +29,7 @@ const getQuoteByBookId = async (req, res) =>{
 const deleteQuote = async(req, res) =>{
     try{
         let quote = await Quote.findByIdAndDelete(req.params.id);
-        res.status(200).send(quote);
+        res.status(204).send(quote);
     } catch (e){
         res.status(500).send({ "message": "internal server error", "e": e });
     }    
