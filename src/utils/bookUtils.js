@@ -4,26 +4,18 @@ class BookFeatures{
         this.queryStr = queryStr;
     }
     filter(){
-        //let queryString = JSON.stringify(this.queryStr);
         let sort;
         let str;
-
-        console.log(this.queryStr.str);
-        console.log(this.queryStr);
         if(this.queryStr.sort){
             sort = this.queryStr.sort;
         } else{
             sort = '';
         }
-
         if(this.queryStr.str){
             str = this.queryStr.str;
         } else{
             str = '';
         }
-        // let substring = 
-        // queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-        // let queryObj = JSON.parse(queryString);
         if(str && sort){
             switch (sort){
                 case 'all':
@@ -52,15 +44,6 @@ class BookFeatures{
             }
         } 
         return this;
-
-        // this.query = this.query.find({ $or: [ {'book_authors': { $elemMatch: { $regex: str, $options: 'i' }}},
-        //     {'book_name': { $regex: str, $options: 'i' }}, 
-        //     {'book_description': { $elemMatch: { $regex: str, $options: 'i' }}},
-        //     {'book_keywords': { $regex: str, $options: 'i' }}, 
-        //     {'book_genres': { $regex: str, $options: 'i' }} ]  
-        // });
-
-        
     }
 }
 

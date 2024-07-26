@@ -16,7 +16,8 @@ const rateSchema=mongoose.Schema({
     },
     rate_score:{
         type:Number,
-        required:true
+        min: [1, "rate_score can not be least than 1"],
+        required:[true, "rate_score is a required field"]
     }
   });
   

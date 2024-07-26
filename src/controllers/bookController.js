@@ -91,7 +91,6 @@ const patchBookArray = async (req, res) =>{
 }
 
 const findBooks = async(req, res) =>{
-    console.log('!!!')
     let searchResult = await new BookFeatures(Book.find(), req.query).filter();
     res.status(200).send(await searchResult.query); 
 }

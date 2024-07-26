@@ -10,15 +10,15 @@ const quoteSchema=mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'books'
   },
-  quote_book_img:[{
-      type: String
-  }],
+  quote_book_img:{
+      type: [String]
+  },
   quote_book_name:{
       type: String
   },
-  quote_book_authors:[{
-      type: String
-  }],
+  quote_book_authors:{
+      type: [String]
+  },
   quote_user: {
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'users'
@@ -29,14 +29,14 @@ const quoteSchema=mongoose.Schema({
   quote_user_login: {
       type: String
   },
-  quote_text:[{
-      type:String,
-      required:true,
-      unique:true
-  }],
+  quote_text:{
+      type:[String],
+      required:[true, "quote_text is a required field"],
+      unique:[true, "quote_text should be a unique field"]
+  },
   quote_date: {
       type:String,
-      required:true
+      required:[true, "quote_date is a required field"],
   },
   quote_character: {
     type:String,

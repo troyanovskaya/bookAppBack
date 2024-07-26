@@ -8,46 +8,38 @@ const bookSchema=mongoose.Schema({
         required:true},
     book_name:{
         type:String,
-        required:true
+        required:[true, "book_name is required field"]
     },
-    book_authors: [{
-        type:String,
-        required:true
-      }],
+    book_authors: {
+        type:[String]
+    },
     book_edition_year:{
         type: Number,
-        required:true
+        required:[true, "book_edition_year is required field"]
     },
-    book_description:[{
-        type: String,
-        required:true
-    }],
-    book_keywords:[{
-        type: String,
-        required:true
-    }],
-    book_genres: [{
-        type:String,
-        required:true
-    }],
+    book_description:{
+        type: [String]
+    },
+    book_keywords:{
+        type: [String]
+    },
+    book_genres: {
+        type:[String]
+    },
     book_average_rate:{
         type: Number,
         required:true,
         default: 0
     },
-    book_img:[{
-        type: String,
-        required:true
-    }],
-    book_series: [{
-        type:String,
-        required: true
-    }],
-    book_series_numbers: [{
-        type: Number,
-        required: true
-    }]
-
+    book_img:{
+        type: [String]
+    },
+    book_series: {
+        type:[String]
+    },
+    book_series_numbers: {
+        type: [Number]
+    }
   });
   
   const Book=mongoose.model('books', bookSchema);

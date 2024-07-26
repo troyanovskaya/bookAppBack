@@ -10,15 +10,15 @@ const commentSchema=mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'books'
     },
-    comment_book_img:[{
-        type: String
-    }],
+    comment_book_img:{
+        type: [String]
+    },
     comment_book_name:{
         type: String
     },
-    comment_book_authors:[{
-        type: String
-    }],
+    comment_book_authors:{
+        type: [String]
+    },
     comment_user: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'users'
@@ -29,13 +29,13 @@ const commentSchema=mongoose.Schema({
     comment_user_login: {
         type: String
     },
-    comment_text:[{
-        type:String,
-        required:true
-    }],
+    comment_text:{
+        type:[String],
+        required:[true, "comment_text is required field"]
+    },
     comment_date: {
         type:String,
-        required:true
+        required:[true, "comment_date is required field"]
     }
   });
   
