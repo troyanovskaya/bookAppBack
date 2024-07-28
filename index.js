@@ -43,6 +43,14 @@ app.use('/quotes', quoteRouter);
 app.use('/rates', rateRouter);
 app.use('/authors', authorRouter);
 
+app.all('*', (req, res, next) =>{
+    res.status(404).json({
+        status: 'fail',
+        message: `Can not find ${req.originalUrl} on the server`
+    })
+
+})
+
 //console.log(app.get('env'))
 app.listen(port, () =>{
     console.log('server has started');
