@@ -1,5 +1,6 @@
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 const mongoose=require('mongoose');
+const CustomError = require('./src/utils/customError')
 mongoose.connect(url);
  
 const cors = require('cors');
@@ -44,11 +45,16 @@ app.use('/rates', rateRouter);
 app.use('/authors', authorRouter);
 
 app.all('*', (req, res, next) =>{
-    res.status(404).json({
-        status: 'fail',
-        message: `Can not find ${req.originalUrl} on the server`
+    const err = new CustomError(`Can not find ${req.originalUrl} on the server`, 404)
+    next(err);
+})
+app.use((error, req, res, next) =>{
+    error.statusCode = error.StatusCode || 500;
+    error.status = error.status || 'error';
+    res.status(error.statusCode).json({
+        status: error.statusCode,
+        message: error.message
     })
-
 })
 
 //console.log(app.get('env'))
