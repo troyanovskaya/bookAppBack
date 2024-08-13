@@ -1,5 +1,6 @@
 const {User} = require('../schemas/User');
 const asyncErrorHandler = require('./asyncErrorHandler');
+const CustomError = require('../utils/customError');
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 const mongoose=require('mongoose');
 mongoose.connect(url);
@@ -10,7 +11,7 @@ const checkBodyPostUser = async (req, res, next) => {
     }
     return res.status(404).send({ "message": "proper post body missing"});
 }
-const postUser = asyncErrorHandler(async (req, res) => {
+const postUser = asyncErrorHandler(async (req, res, next) => {
     let _id = new mongoose.Types.ObjectId();
     let {user_role, user_login, user_password,
         user_email, user_img, user_books_saved, user_books_read,
@@ -21,24 +22,34 @@ const postUser = asyncErrorHandler(async (req, res) => {
     newUser.save();
     res.status(201).send(newUser);
 })
-const getUserByEmailPassword = asyncErrorHandler(async (req, res) => {
+const getUserByEmailPassword = asyncErrorHandler(async (req, res, next) => {
     let {password, email} = req.query;
     const user = await User.findOne({"user_email": email});
     if(!user){
-        res.status(404).send("No user found"); 
+        const err = new CustomError("No user found", 404);
+        return next(err);
     } else if (user.user_password!=password){
-        res.status(404).send('Wrong password'); 
+        const err = new CustomError("Wrong password", 404);
+        return next(err);
     } else{
         res.status(200).send(user); 
     }
 })
-const patchUser = (async (req, res) =>{
+const patchUser = (async (req, res, next) =>{
     let update = req.body;
     let user = await User.findOneAndUpdate({_id: req.params.id}, update, {new: true, runValidators: true});
+    if(!user){
+        const err = new CustomError("No user found!", 404);
+        return next(err);
+    }
     res.status(200).send(user);  
 })
-const getFavDrop = asyncErrorHandler(async (req, res) => {
+const getFavDrop = asyncErrorHandler(async (req, res, next) => {
     let u = await User.findById(req.params.userId);
+    if(!u){
+        const err = new CustomError("No user found!", 404);
+        return next(err);
+    }
     let dropped = u.user_books_dropped;
     let favourite = u.user_books_favourite;
     let dropA;

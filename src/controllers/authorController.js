@@ -1,7 +1,8 @@
 const {Author} = require('../schemas/Author');
 const mongoose=require('mongoose');
 const asyncErrorHandler = require('./asyncErrorHandler');
-const postAuthor = asyncErrorHandler(async (req, res) => {
+const CustomError = require('../utils/customError');
+const postAuthor = asyncErrorHandler(async (req, res, next) => {
     let _id = new mongoose.Types.ObjectId();
     let {author_name, author_biography, author_date_of_birth, author_books,
         author_img, author_series} = req.body;
@@ -11,11 +12,13 @@ const postAuthor = asyncErrorHandler(async (req, res) => {
     res.status(201).send(newAuthor);
  })
 
- const getAuthorByName = asyncErrorHandler(async (req, res) => {
-    console.log(req)
+ const getAuthorByName = asyncErrorHandler(async (req, res, next) => {
     let name = req.params.name;
-    console.log(req.params)
-    let authors = await Author.find({"author_name": name})
+    let authors = await Author.find({"author_name": name});
+    if(!authors[0]){
+        const err = new CustomError("No author found!", 404);
+        return next(err);
+    }
     res.status(200).send(authors);
  })
 

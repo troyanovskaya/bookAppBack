@@ -1,6 +1,7 @@
 const { Book } = require('../schemas/Book');
 const {Rate} = require('../schemas/Rate');
 const asyncErrorHandler = require('./asyncErrorHandler');
+const CustomError = require('../utils/customError');
 const mongoose=require('mongoose');
 
 const getScore = async (rate_book) => {
@@ -11,7 +12,7 @@ const getScore = async (rate_book) => {
     }
     return(sum/rates.length).toFixed(2);    
 }
-const postRate = asyncErrorHandler(async (req, res) => {
+const postRate = asyncErrorHandler(async (req, res, next) => {
     let _id = new mongoose.Types.ObjectId();
     let {rate_user, rate_book, rate_score} = req.body;
     let oldRate = await Rate.findOne({'rate_user': rate_user, 'rate_book': rate_book});
@@ -35,12 +36,12 @@ const postRate = asyncErrorHandler(async (req, res) => {
             }  );
         }
 })
-const getRateByBookId = asyncErrorHandler(async (req, res) =>{
+const getRateByBookId = asyncErrorHandler(async (req, res, next) =>{
     let bookId = req.params.bookId;
     let result = await getScore(bookId);
     res.status(200).send(result);
 })
-const getRateByUserId = asyncErrorHandler(async (req, res) =>{
+const getRateByUserId = asyncErrorHandler(async (req, res, next) =>{
     let userId = req.params.userId;
     let rates = await Rate.find({'rate_user': userId});
     res.status(200).send(rates);
