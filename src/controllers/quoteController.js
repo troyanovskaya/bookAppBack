@@ -18,10 +18,6 @@ const postQuote = asyncErrorHandler(async (req, res, next) => {
 const getQuoteByBookId = asyncErrorHandler(async (req, res, next) =>{
     let bookId = req.params.bookId;
     const quotes = await Quote.find({quote_book: bookId});
-    if(!quotes[0]){
-        const err = new CustomError("No quotes found!", 404);
-        return next(err);
-    }
     res.status(200).send(quotes);
 })
 const deleteQuote = asyncErrorHandler(async(req, res, next) =>{

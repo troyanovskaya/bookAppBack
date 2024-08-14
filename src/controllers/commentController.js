@@ -20,10 +20,6 @@ const postComment = asyncErrorHandler(async (req, res, next) => {
 const getCommentByBookId = asyncErrorHandler(async (req, res, next) =>{
     let bookId = req.params.bookId;
     const comments = await Comment.find({comment_book: bookId});
-    if(!comments[0]){
-        const err = new CustomError("No comments found!", 404);
-        return next(err);
-    }
     res.status(200).send(comments);
 })
 const deleteComment = asyncErrorHandler(async(req, res, next) =>{

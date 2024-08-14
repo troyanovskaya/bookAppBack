@@ -6,10 +6,6 @@ const CustomError = require('../utils/customError');
 
 const getBooks = asyncErrorHandler(async (req, res, next) => {
     const books = await Book.find();
-    if(!books[0]){
-        const err = new CustomError("No books found!", 404);
-        return next(err);
-    }
     res.status(200).send(books); 
 })
 

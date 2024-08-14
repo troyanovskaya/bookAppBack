@@ -18,10 +18,6 @@ const postReview = asyncErrorHandler(async (req, res, next) => {
 const getReviewByBookId = asyncErrorHandler(async (req, res, next) =>{
     let bookId = req.params.bookId;
     const reviews = await Review.find({review_book: bookId});
-    if(!reviews[0]){
-        const err = new CustomError("No reviews found!", 404);
-        return next(err);
-    }
     res.status(200).send(reviews);
 })
 const deleteReview = asyncErrorHandler(async(req, res) =>{
