@@ -12,8 +12,9 @@ const postQuote = asyncErrorHandler(async (req, res, next) => {
     const newQuote = await new Quote({_id, quote_book,  quote_book_img, 
         quote_book_name, quote_book_authors, quote_user, quote_user_img, 
         quote_user_login, quote_text, quote_date, quote_character});
-    newQuote.save();
-    res.status(201).send(newQuote);
+    newQuote.save()
+    .then(()=> res.status(201).send(newQuote))
+    .catch( err => next(err));
 })
 const getQuoteByBookId = asyncErrorHandler(async (req, res, next) =>{
     let bookId = req.params.bookId;

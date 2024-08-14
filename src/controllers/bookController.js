@@ -15,8 +15,8 @@ const postBook = asyncErrorHandler(async (req, res, next) => {
     book_keywords, book_genres, book_rates, book_average_rate, book_img, book_series, book_series_numbers} = req.body;
     const newBook = await new Book({_id, book_name, book_authors, book_edition_year, book_description,
         book_keywords, book_genres, book_rates, book_average_rate, book_img, book_series, book_series_numbers});
-    newBook.save();
-    res.status(201).send(newBook);
+    newBook.save().then(()=> res.status(201).send(newBook)).catch( err => next(err));
+    ;
 })
 const getBook = asyncErrorHandler(async (req, res, next) =>{
     const book = await Book.findById(req.params.id);
@@ -62,8 +62,7 @@ const patchBookArray = asyncErrorHandler(async (req, res, next) =>{
         let newElement = req.body;
         if(book[`${property}`] && newElement){
             book[`${property}`].push(newElement);
-            book.save();
-            res.status(200).send(book);
+            book.save().then(()=> res.status(201).send(book)).catch( err => next(err));
         } else{
             res.status(404).send("Property undefined");
         }  

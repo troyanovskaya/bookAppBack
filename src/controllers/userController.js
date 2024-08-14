@@ -19,7 +19,9 @@ const postUser = asyncErrorHandler(async (req, res, next) => {
     const newUser = await new User({_id, user_role, user_login, user_password,
         user_email, user_img, user_books_saved, user_books_read,
         user_books_dropped, user_books_favourite, user_saved_quotes, user_books_recommendations});
-    newUser.save();
+    newUser.save()
+        .then(()=> res.status(201).send(newUser))
+        .catch( err => next(err));
     res.status(201).send(newUser);
 })
 const getUserByEmailPassword = asyncErrorHandler(async (req, res, next) => {

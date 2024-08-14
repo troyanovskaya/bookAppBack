@@ -8,17 +8,14 @@ const postAuthor = asyncErrorHandler(async (req, res, next) => {
         author_img, author_series} = req.body;
     let newAuthor = await new Author({_id, author_name, author_biography, author_date_of_birth, author_books,
         author_img, author_series});
-    newAuthor.save();
-    res.status(201).send(newAuthor);
+    newAuthor.save().then(()=> res.status(201)
+    .send(newAuthor))
+    .catch( err => next(err));
  })
 
  const getAuthorByName = asyncErrorHandler(async (req, res, next) => {
     let name = req.params.name;
     let authors = await Author.find({"author_name": name});
-    if(!authors[0]){
-        const err = new CustomError("No author found!", 404);
-        return next(err);
-    }
     res.status(200).send(authors);
  })
 

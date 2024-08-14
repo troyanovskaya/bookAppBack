@@ -12,7 +12,9 @@ const postReview = asyncErrorHandler(async (req, res, next) => {
     const newReview = await new Review({_id, review_book,  review_book_img, 
         review_book_name, review_book_authors, review_user, review_user_img, 
         review_user_login, review_text, review_date});
-    newReview.save();
+    newReview.save()
+        .then(()=> res.status(201).send(newReview))
+        .catch( err => next(err));
     res.status(201).send(newReview);
 })
 const getReviewByBookId = asyncErrorHandler(async (req, res, next) =>{

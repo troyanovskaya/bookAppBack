@@ -27,13 +27,16 @@ const postRate = asyncErrorHandler(async (req, res, next) => {
             } );
     } else{
         const newRate = await new Rate({_id, rate_book, rate_user, rate_score});
-        newRate.save().then( async () =>{
-            let result = await getScore(rate_book);
-            let book = await Book.findOne({_id: rate_book._id});
-            book.book_average_rate = result;
-            book.save()
-            res.status(200).send(result)
-            }  );
+        newRate.save()
+            .then( async () =>{
+                let result = await getScore(rate_book);
+                let book = await Book.findOne({_id: rate_book._id});
+                book.book_average_rate = result;
+                book.save()
+                    .catch(err => next(err));
+                res.status(200).send(result)
+            })
+            .catch(err => next(err));
         }
 })
 const getRateByBookId = asyncErrorHandler(async (req, res, next) =>{
