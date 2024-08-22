@@ -1,6 +1,8 @@
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 const mongoose=require('mongoose');
 mongoose.connect(url);
+const validator = require('validator');
+const bcryptjs = require('bcryptjs');
 
 const userSchema=mongoose.Schema({
     _id: {
@@ -28,6 +30,7 @@ const userSchema=mongoose.Schema({
         type:String,
         required: [true, "user_email is a required field"],
         unique: [true, "user_email should be unique"],
+        validate: [validator.isEmail, "user_email does not look like email address"]
     },
     user_img:{
         type:String,
@@ -59,6 +62,11 @@ const userSchema=mongoose.Schema({
         ref: 'books',
     }
   });
+  userSchema.pre('save', async function(next){
+    if(!this.isModified('user_password')) return next();
+    this.user_password = await bcryptjs.hash(this.user_password, 5);
+    next();
+  })
   
   const User = mongoose.model('users', userSchema);
   module.exports={

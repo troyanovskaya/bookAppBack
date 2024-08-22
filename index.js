@@ -52,7 +52,13 @@ app.all('*', (req, res, next) =>{
 app.use(errorController);
 
 //console.log(app.get('env'))
-app.listen(port, () =>{
+const server = app.listen(port, () =>{
     console.log('server has started');
 })
+process.on('unhandledRejection', (err) =>{
+    console.log(err.name, err.message);
+    server.close(()=>{
+        process.exit(1);
+    })
 
+})

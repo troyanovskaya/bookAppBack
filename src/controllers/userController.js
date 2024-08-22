@@ -4,6 +4,14 @@ const CustomError = require('../utils/customError');
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 const mongoose=require('mongoose');
 mongoose.connect(url);
+const getAllUsers = asyncErrorHandler(async (req, res, next) => {
+    const users = await User.find();
+    res.status(200).send(users); 
+})
+const deleteAllUsers = asyncErrorHandler(async (req, res, next) => {
+    const usersDeleted = await User.deleteMany();
+    res.status(200).send({usersDeleted}); 
+})
 const checkBodyPostUser = async (req, res, next) => {
     let {user_login, user_password, user_email} = req.body;
     if(user_login && user_password && user_email){
@@ -22,7 +30,6 @@ const postUser = asyncErrorHandler(async (req, res, next) => {
     newUser.save()
         .then(()=> res.status(201).send(newUser))
         .catch( err => next(err));
-    res.status(201).send(newUser);
 })
 const getUserByEmailPassword = asyncErrorHandler(async (req, res, next) => {
     let {password, email} = req.query;
@@ -104,6 +111,8 @@ const getFavDrop = asyncErrorHandler(async (req, res, next) => {
 
 
 module.exports = { 
+    getAllUsers,
+    deleteAllUsers,
     postUser,
     getUserByEmailPassword,
     checkBodyPostUser,
