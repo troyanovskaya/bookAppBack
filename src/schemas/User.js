@@ -23,8 +23,9 @@ const userSchema=mongoose.Schema({
         type:String,
         required: [true, "user_password is a required field"],
         minLength: [8, "user_password should be at leat 8 characters long"],
-        maxLength: [100, "user_password should not be longer than 100"]
-        // select: false to exclude from query result
+        maxLength: [100, "user_password should not be longer than 100"],
+        select: false
+        //to exclude from query result
     },
     user_email:{
         type:String,
@@ -60,13 +61,26 @@ const userSchema=mongoose.Schema({
     user_books_recommendations: {
         type: [mongoose.Schema.Types.ObjectId], 
         ref: 'books',
-    }
+    },
+    passwordChangedAt: Date
   });
+
   userSchema.pre('save', async function(next){
     if(!this.isModified('user_password')) return next();
     this.user_password = await bcryptjs.hash(this.user_password, 5);
     next();
-  })
+  });
+
+  userSchema.methods.comparePasswords = async function(password, passwordDB){
+    return await bcryptjs.compare(password, passwordDB);
+  }
+  userSchema.methods.isPasswordChanged = async function (JWTTimestamp){
+    if(this.passwordChangedAt){
+        const passwordChanged = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+        return JWTTimestamp < passwordChanged;
+    }
+    return false;
+  }
   
   const User = mongoose.model('users', userSchema);
   module.exports={

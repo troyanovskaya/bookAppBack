@@ -3,7 +3,31 @@ const asyncErrorHandler = require('./asyncErrorHandler');
 const CustomError = require('../utils/customError');
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 const mongoose=require('mongoose');
+const jwt = require('jsonwebtoken');
+const util = require('util');
 mongoose.connect(url);
+const issueToken = id =>{
+    return jwt.sign({id}, 'mkgkK-=Q13mkv_dge_8*ad<', {expiresIn: "10d"});
+}
+const getUserByToken = asyncErrorHandler(async (req, res, next) =>{
+    const testToken = req.headers.authorization;
+    let token;
+    if(testToken && testToken.startsWith('Bearer')){
+        token = testToken.split(' ')[1];
+    }
+    if(!token){
+        return next(new CustomError("User is not authorized", 401))
+    }
+    const decodedToken = await util.promisify(jwt.verify)(token, 'mkgkK-=Q13mkv_dge_8*ad<');
+    let user  = await User.findById(decodedToken.id);
+    if(!user){
+        return next(new CustomError("The user with given token do not exist", 401));
+    }
+    if(await user.isPasswordChanged(decodedToken.iat)){
+        return next(new CustomError("Password has changed scince token was issued", 401))
+    }
+    res.status(200).send(user);
+})
 const getAllUsers = asyncErrorHandler(async (req, res, next) => {
     const users = await User.find();
     res.status(200).send(users); 
@@ -27,21 +51,21 @@ const postUser = asyncErrorHandler(async (req, res, next) => {
     const newUser = await new User({_id, user_role, user_login, user_password,
         user_email, user_img, user_books_saved, user_books_read,
         user_books_dropped, user_books_favourite, user_saved_quotes, user_books_recommendations});
+    const token = issueToken(_id);
     newUser.save()
-        .then(()=> res.status(201).send(newUser))
+        //.then(()=> res.status(201).send(newUser))
+                .then(()=> res.status(201).json({user: newUser, token}))
         .catch( err => next(err));
 })
 const getUserByEmailPassword = asyncErrorHandler(async (req, res, next) => {
     let {password, email} = req.query;
-    const user = await User.findOne({"user_email": email});
-    if(!user){
-        const err = new CustomError("No user found", 404);
-        return next(err);
-    } else if (user.user_password!=password){
-        const err = new CustomError("Wrong password", 404);
+    const user = await User.findOne({"user_email": email}).select('+user_password');
+    if(!user || !await user.comparePasswords(password, user.user_password)){
+        const err = new CustomError("Wrong login or password", 404);
         return next(err);
     } else{
-        res.status(200).send(user); 
+        const token = issueToken(user._id);
+        res.status(200).json({user, token}); 
     }
 })
 const patchUser = (async (req, res, next) =>{
@@ -110,7 +134,9 @@ const getFavDrop = asyncErrorHandler(async (req, res, next) => {
 })
 
 
+
 module.exports = { 
+    getUserByToken,
     getAllUsers,
     deleteAllUsers,
     postUser,
