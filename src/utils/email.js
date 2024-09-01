@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const username = 'anastasiiatroianovska@gmail.com';
-const password = 'hrmwwfbsrgdlcedg';
+const password = 'wmkykowqaijetcma';
 const host = 'sandbox.smtp.mailtrap.io';
 const port = 25;
 
