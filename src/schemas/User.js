@@ -3,6 +3,7 @@ const mongoose=require('mongoose');
 mongoose.connect(url);
 const validator = require('validator');
 const bcryptjs = require('bcryptjs');
+const crypto = require('crypto');
 
 const userSchema=mongoose.Schema({
     _id: {
@@ -62,7 +63,9 @@ const userSchema=mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId], 
         ref: 'books',
     },
-    passwordChangedAt: Date
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetTokenExpires: Date
   });
 
   userSchema.pre('save', async function(next){
@@ -81,7 +84,12 @@ const userSchema=mongoose.Schema({
     }
     return false;
   }
-  
+  userSchema.methods.createPasswordResetToken = function(){
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    this.passwordResetTokenExpires = Date.now() + 10*60*1000;
+    return resetToken;
+  }
   const User = mongoose.model('users', userSchema);
   module.exports={
       User

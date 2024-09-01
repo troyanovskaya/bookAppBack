@@ -1,9 +1,11 @@
 const {User} = require('../schemas/User');
 const asyncErrorHandler = require('./asyncErrorHandler');
+const sendEmail = require('../utils/email');
 const CustomError = require('../utils/customError');
 const url = 'mongodb+srv://placewithsecret:ekdQ94LxLIIjYdSP@cluster1.cxw0wae.mongodb.net/book_app?retryWrites=true&w=majority&appName=Cluster1';
 const mongoose=require('mongoose');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const util = require('util');
 mongoose.connect(url);
 const issueToken = id =>{
@@ -133,6 +135,49 @@ const getFavDrop = asyncErrorHandler(async (req, res, next) => {
     res.status(200).send(obj);
 })
 
+const forgotPassword = asyncErrorHandler(async (req, res, next) => {
+    const user = await User.findOne({user_email: req.body.user_email});
+    if(!user){
+        return next(new CustomError("We could not find user with this email", 404));
+    }
+    const resetToken = user.createPasswordResetToken();
+    const result = await user.save();
+    const resetUrl = `https://troyanovskaya.github.io/bookApp/users/passwordReset/${resetToken}`;
+    const message  = `We received password reset request from your account. Please click on the link to create new password:\n\n ${resetUrl} \n\n This reset link is valid for 10 minutes.`
+    try{
+        await sendEmail({
+            email: user.user_email,
+            subject: 'Password reset',
+            message: message    
+        });
+        res.status(200).send({ result: 'Email sent'}); 
+    } catch(e){
+        user.passwordResetToken = undefined;
+        user.passwordResetTokenExpires = undefined;
+        user.save({validateBeforeSave: false});
+        return next(new CustomError(e.message, 500))
+    }
+
+    
+})
+const passwordReset = asyncErrorHandler(async (req, res, next) => {
+    const token = crypto.createHash('sha256').update(req.params.token).digest('hex');
+    const user = await User.findOne({
+        passwordResetToken: token,
+        passwordResetTokenExpires: {$gt: Date.now()}
+    })
+    if(!user){
+        return next(new CustomError('Password reset token is invalid or has expired', 400))
+    }
+    user.user_password = req.body.user_password;
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpires = undefined;
+    user.passwordChangedAt = Date.now();
+    user.save();
+    const newToken = issueToken(user._id);
+    res.status(200).json({user, token:newToken}); 
+})
+
 
 
 module.exports = { 
@@ -143,5 +188,7 @@ module.exports = {
     getUserByEmailPassword,
     checkBodyPostUser,
     patchUser,
-    getFavDrop
+    getFavDrop,
+    forgotPassword,
+    passwordReset
 }
