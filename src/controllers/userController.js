@@ -142,7 +142,7 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
     }
     const resetToken = user.createPasswordResetToken();
     const result = await user.save();
-    const resetUrl = `https://booknook-e2178.web.app/bookApp/users/passwordReset/${resetToken}`;
+    const resetUrl = `https://booknook-e2178.web.app/users/passwordReset/${resetToken}`;
     const message  = `We received password reset request from your account. Please click on the link to create new password:\n\n ${resetUrl} \n\n This reset link is valid for 10 minutes.`
     try{
         await sendEmail({
